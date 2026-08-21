@@ -1,185 +1,311 @@
+// ===============================
+// START ENGINE
+// ===============================
+
 const startBtn = document.getElementById("startBtn");
-const journey = document.getElementById("journey");
 
-startBtn.addEventListener("click", () => {
-    journey.scrollIntoView({
-        behavior: "smooth"
+if (startBtn) {
+    startBtn.addEventListener("click", () => {
+
+        const journey = document.getElementById("journey");
+
+        if (journey) {
+            journey.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
     });
-});
+}
 
 
-// SECRET BUTTON
+// ===============================
+// BIRTHDAY SURPRISE + MUSIC
+// ===============================
+
+const surpriseBtn = document.getElementById("surpriseBtn");
+const birthdayMusic = document.getElementById("birthdayMusic");
+const surpriseMessage = document.getElementById("surpriseMessage");
+
+if (surpriseBtn) {
+
+    surpriseBtn.addEventListener("click", () => {
+
+        // Show birthday message
+        if (surpriseMessage) {
+            surpriseMessage.classList.add("show");
+        }
+
+        // Play birthday music
+        if (birthdayMusic) {
+
+            birthdayMusic.currentTime = 0;
+
+            birthdayMusic.play().catch(() => {
+                console.log("Music could not autoplay.");
+            });
+
+        }
+
+        // Small celebration
+        createConfetti();
+
+    });
+
+}
+
+
+// ===============================
+// SECRET MESSAGE
+// ===============================
+
 const secretBtn = document.getElementById("secretBtn");
 const secretText = document.getElementById("secretText");
 
-secretBtn.addEventListener("click", () => {
+if (secretBtn) {
 
-    secretText.textContent =
-        "Okay... you found the secret. You're officially Papa's favorite. 😂❤️";
+    secretBtn.addEventListener("click", () => {
 
-    secretText.style.color = "#b00000";
+        if (secretText) {
 
-    secretBtn.textContent = "🔓 SECRET UNLOCKED";
+            secretText.classList.toggle("show");
 
-});
+            if (secretText.classList.contains("show")) {
+                secretText.textContent =
+                    "🔓 CLASSIFIED: Ehab is officially the best little brother! ❤️😂";
+            } else {
+                secretText.textContent =
+                    "Some things are better left classified...";
+            }
 
+        }
 
-// CELEBRATE BUTTON
-const celebrateBtn = document.getElementById("celebrateBtn");
+    });
 
-celebrateBtn.addEventListener("click", () => {
-
-    for (let i = 0; i < 80; i++) {
-
-        const confetti = document.createElement("div");
-
-        confetti.classList.add("confetti");
-
-        confetti.style.left =
-            Math.random() * 100 + "vw";
-
-        confetti.style.animationDelay =
-            Math.random() * 1.5 + "s";
-
-        confetti.style.transform =
-            `rotate(${Math.random() * 360}deg)`;
-
-        document.body.appendChild(confetti);
-
-        setTimeout(() => {
-            confetti.remove();
-        }, 4000);
-    }
-
-    celebrateBtn.textContent =
-        "🎂 HAPPY BIRTHDAY EHAB! ❤️";
-
-});
+}
 
 
-// CAR POPUP
+// ===============================
+// CAR GARAGE
+// ===============================
+
 function openCar(car) {
 
     const popup = document.getElementById("carPopup");
     const image = document.getElementById("carImage");
     const label = document.getElementById("carLabel");
 
+    if (!popup || !image || !label) {
+        return;
+    }
+
+
     if (car === "bmw") {
 
-        image.src = "images/bmw.jpg";
+        // IMPORTANT:
+        // GitHub file is named Bmw.jpg
+        image.src = "Bmw.jpg";
 
-        label.textContent =
-            "BMW — Ehab's kind of speed. 🏎️🔥";
+        label.textContent = "🏎️ BMW — EHAB'S DREAM RIDE";
 
     }
+
 
     if (car === "rolls") {
 
-        image.src = "images/rollsroyce.jpg";
+        // GitHub file is named rollsroyce.jpg
+        image.src = "rollsroyce.jpg";
 
-        label.textContent =
-            "ROLLS-ROYCE — Because apparently normal cars aren't enough. 😂";
+        label.textContent = "👑 ROLLS-ROYCE — THE LUXURY MODEL";
 
     }
 
+
     popup.classList.add("show");
+
 }
 
+
+// ===============================
+// CLOSE CAR POPUP
+// ===============================
 
 function closeCar() {
 
-    document
-        .getElementById("carPopup")
-        .classList.remove("show");
+    const popup = document.getElementById("carPopup");
+
+    if (popup) {
+        popup.classList.remove("show");
+    }
 
 }
 
 
+// Close popup when clicking outside the car image
+
+const carPopup = document.getElementById("carPopup");
+
+if (carPopup) {
+
+    carPopup.addEventListener("click", (event) => {
+
+        if (event.target === carPopup) {
+            closeCar();
+        }
+
+    });
+
+}
+
+
+// ===============================
+// CELEBRATE EHAB
+// ===============================
+
+const celebrateBtn = document.getElementById("celebrateBtn");
+const celebration = document.getElementById("celebration");
+
+if (celebrateBtn) {
+
+    celebrateBtn.addEventListener("click", () => {
+
+        createConfetti();
+
+        createConfetti();
+
+        if (celebration) {
+
+            celebration.innerHTML =
+                "🎉 🎂 ❤️ HAPPY 14TH BIRTHDAY EHAB! ❤️ 🎂 🎉";
+
+            celebration.classList.add("show");
+
+        }
+
+    });
+
+}
+
+
+// ===============================
 // PARTY BUTTON
+// ===============================
+
 const partyBtn = document.getElementById("partyBtn");
 const partyMessage = document.getElementById("partyMessage");
 
-partyBtn.addEventListener("click", () => {
+if (partyBtn) {
 
-    partyMessage.classList.remove("show");
+    partyBtn.addEventListener("click", () => {
 
-    void partyMessage.offsetWidth;
+        if (partyMessage) {
+            partyMessage.classList.add("show");
+        }
 
-    partyMessage.classList.add("show");
+        createConfetti();
+        createConfetti();
+        createConfetti();
 
+    });
 
-    // Left + right party bursts
-    for (let i = 0; i < 100; i++) {
-
-        const particle = document.createElement("div");
-
-        particle.classList.add("party-particle");
-
-        const side = i % 2 === 0 ? -1 : 1;
-
-        const x =
-            side * (Math.random() * 50 + 20) + "vw";
-
-        const y =
-            (Math.random() * 90 - 45) + "vh";
-
-        particle.style.setProperty("--x", x);
-        particle.style.setProperty("--y", y);
-
-        particle.style.left =
-            side === -1 ? "5vw" : "95vw";
-
-        particle.style.background =
-            Math.random() > 0.5
-                ? "#b00000"
-                : "#ffffff";
-
-        particle.style.transform =
-            `rotate(${Math.random() * 360}deg)`;
-
-        document.body.appendChild(particle);
-
-        setTimeout(() => {
-            particle.remove();
-        }, 3000);
-    }
-
-});
+}
 
 
-// BIRTHDAY SURPRISE
-const surpriseBtn = document.getElementById("surpriseBtn");
-const surpriseMessage = document.getElementById("surpriseMessage");
-const birthdayMusic = document.getElementById("birthdayMusic");
+// ===============================
+// CONFETTI EFFECT
+// ===============================
 
-surpriseBtn.addEventListener("click", () => {
+function createConfetti() {
 
-    // Show birthday message
-    surpriseMessage.classList.add("show");
+    const emojis = [
+        "🎉",
+        "🎊",
+        "🎂",
+        "❤️",
+        "💖",
+        "✨",
+        "🎈",
+        "🏎️"
+    ];
 
-    // Play music
-    birthdayMusic.play();
 
-    // 🎉 Confetti
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 35; i++) {
 
         const confetti = document.createElement("div");
 
-        confetti.innerHTML = "🎉";
+        confetti.className = "confetti";
+
+        confetti.textContent =
+            emojis[Math.floor(Math.random() * emojis.length)];
+
 
         confetti.style.position = "fixed";
-        confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.top = "-20px";
-        confetti.style.fontSize = "25px";
-        confetti.style.zIndex = "9999";
-        confetti.style.animation =
-            "fall 3s linear forwards";
+
+        confetti.style.left =
+            Math.random() * 100 + "vw";
+
+        confetti.style.top = "-40px";
+
+        confetti.style.fontSize =
+            (Math.random() * 20 + 15) + "px";
+
+        confetti.style.zIndex = "99999";
+
+        confetti.style.pointerEvents = "none";
+
+
+        const duration =
+            Math.random() * 3 + 2;
+
+
+        confetti.style.transition =
+            `transform ${duration}s linear, opacity ${duration}s linear`;
+
 
         document.body.appendChild(confetti);
 
+
         setTimeout(() => {
+
+            confetti.style.transform =
+                `translateY(110vh) rotate(${Math.random() * 720}deg)`;
+
+            confetti.style.opacity = "0";
+
+        }, 50);
+
+
+        setTimeout(() => {
+
             confetti.remove();
-        }, 3000);
+
+        }, duration * 1000 + 500);
+
     }
 
+}
+
+
+// ===============================
+// AUTO IMAGE ERROR HANDLER
+// ===============================
+
+document.querySelectorAll("img").forEach((img) => {
+
+    img.addEventListener("error", () => {
+
+        console.log(
+            "Image not found:",
+            img.getAttribute("src")
+        );
+
+    });
+
 });
+
+
+// ===============================
+// PAGE LOADED
+// ===============================
+
+console.log("🎉 Ehab Birthday Website Loaded Successfully!");
